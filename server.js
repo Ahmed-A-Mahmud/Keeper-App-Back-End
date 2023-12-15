@@ -5,7 +5,13 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const Note = require("./noteModel"); // Import the Note model
 
-app.use(cors());
+// CORS configuration
+const corsOptions = {
+  origin: 'https://ahmed-m-keeper-app-development-technology-f6qv4abgn.vercel.app', // Your frontend's URL
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // Your MongoDB URI
