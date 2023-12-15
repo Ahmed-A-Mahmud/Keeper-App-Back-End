@@ -11,10 +11,11 @@ app.use(bodyParser.json());
 // Your MongoDB URI
 const uri =
   "mongodb+srv://am5737:500458As@cluster0.1v0usqs.mongodb.net/?retryWrites=true&w=majority";
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(uri, { useNewUrlParser: true });
 
-app.listen(5000, () => {
-  console.log("Server started on port 5000");
+const port = process.env.PORT || 5000; // Use Heroku's port or 5000 for local
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
 });
 
 app.get("/", (req, res) => {
