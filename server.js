@@ -7,7 +7,7 @@ const Note = require("./noteModel"); // Import the Note model
 
 // CORS configuration
 const corsOptions = {
-  origin: 'https://ahmed-m-keeper-app-development-technology-pwh9ht94o.vercel.app', // Your frontend's URL
+  origin: 'https://ahmed-m-keeper-app-development-technology-9qq4mofzk.vercel.app', // Your frontend's URL
   optionsSuccessStatus: 200
 };
 
