@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const noteSchema = new mongoose.Schema({
+    userId: String, // Field to store the user's ID
     title: String,
     content: String
 });

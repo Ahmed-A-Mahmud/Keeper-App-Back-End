@@ -4,10 +4,16 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const Note = require("./noteModel"); // Import the Note model
+const admin = require('firebase-admin');
+
+admin.initializeApp({
+  credential: admin.credential.applicationDefault()
+});
+
 
 // CORS configuration
 const corsOptions = {
-  origin: 'https://ahmed-m-keeper-app-development-technology-f6qv4abgn.vercel.app', // Your frontend's URL
+  origin: 'https://ahmed-m-keeper-app-development-technology-8dudc6aiz.vercel.app', // Your frontend's URL
   optionsSuccessStatus: 200
 };
 
@@ -28,29 +34,44 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Notes API");
 });
 
-// Get all notes
-app.get("/api/notes", async (req, res) => {
-  const notes = await Note.find();
+// Get all notes for a user
+app.get('/api/notes', async (req, res) => {
+  const userId = req.query.userId;
+  const notes = await db.collection(collectionName).find({ userId }).toArray();
   res.send(notes);
 });
 
-// Add a new note
-app.post("/api/notes", async (req, res) => {
-  const newNote = new Note(req.body);
-  await newNote.save();
-  res.send(newNote);
-});
+// Add a new note for a user
+app.post('/api/notes', async (req, res) => {
+  const newNote = new Note({
+    userId: req.body.userId, // Include the user's ID
+    title: req.body.title,
+    content: req.body.content
+  });
 
-// Update a note
-app.put("/api/notes/:id", async (req, res) => {
-  const updatedNote = await Note.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.send(updatedNote);
+  try {
+    const savedNote = await newNote.save();
+    res.json(savedNote);
+  } catch (error) {
+    res.status(400).send("Error saving note");
+  }
 });
 
 // Delete a note
-app.delete("/api/notes/:id", async (req, res) => {
-  await Note.findByIdAndDelete(req.params.id);
-  res.send({ message: "Note deleted" });
+app.delete('/api/notes/:id', async (req, res) => {
+  const noteId = req.params.id;
+  const userId = req.body.userId; // Get the user's ID from the request
+
+  try {
+    const result = await Note.findOneAndDelete({ _id: noteId, userId });
+    if (result) {
+      res.json({ message: "Note deleted" });
+    } else {
+      res.status(404).send("Note not found");
+    }
+  } catch (error) {
+    res.status(500).send("Error deleting note");
+  }
 });
 
 // Error handling
