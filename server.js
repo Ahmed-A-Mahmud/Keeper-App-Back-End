@@ -38,8 +38,12 @@ app.get("/", (req, res) => {
 // Get all notes for a user
 app.get('/api/notes', async (req, res) => {
   const userId = req.query.userId;
-  const notes = await db.collection(collectionName).find({ userId }).toArray();
-  res.send(notes);
+  try {
+    const notes = await Note.find({ userId });
+    res.send(notes);
+  } catch (error) {
+    res.status(500).send("Error fetching notes");
+  }
 });
 
 // Add a new note for a user
