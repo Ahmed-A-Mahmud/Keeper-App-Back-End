@@ -13,7 +13,7 @@ admin.initializeApp({
 
 // CORS configuration
 const corsOptions = {
-  origin: 'https://ahmed-m-keeper-app.vercel.app/', // Your frontend's URL
+  origin: 'https://ahmed-m-keeper-app.vercel.app', // Your frontend's URL
   optionsSuccessStatus: 200
 };
 
