@@ -13,12 +13,11 @@ admin.initializeApp({
 
 // CORS configuration
 const corsOptions = {
-  origin: 'https://ahmed-m-keeper-app-development-technology-8dudc6aiz.vercel.app', // Your frontend's URL
+  origin: 'https://ahmed-m-keeper-app.vercel.app/', // Your frontend's URL
   optionsSuccessStatus: 200
 };
 
-//app.use(cors(corsOptions));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // Your MongoDB URI
